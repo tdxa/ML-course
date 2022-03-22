@@ -19,12 +19,19 @@ def count_class(data):
 def count_occurences(data):
     return dict(collections.Counter(x for sublist in data for x in sublist))
 
-def get_probabilities(data):
-    # print(count_occurences(data).values())
-    return [val/len(data) for val in count_occurences(data).values()]
+def get_probabilities(decision_keys, data):
+    decision_occurences = {key:count_occurences(data)[key] for key in decision_keys }
+    return [val/len(data) for val in decision_occurences.values()]
 
 def get_entropy(probabilities):
     return -(sum([p * log2(p) for p in probabilities if p !=0]))
+
+def get_info(decision_keys, data):
+    attributes_occurences = count_occurences(data)
+    for key in decision_keys:
+        attributes_occurences.pop(key, None)
+
+
 
 
 
@@ -32,5 +39,6 @@ x = read_file(FILE)
 print(x)
 print(count_class(x))
 print(count_occurences(x))
-print(get_probabilities(x))
-print(get_entropy(probabilities=get_probabilities(x)))
+print(get_probabilities(["down","up"],x))
+print(get_entropy(get_probabilities(["down","up"],x)))
+get_info(["down","up"],x)
