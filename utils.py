@@ -17,7 +17,11 @@ def count_class(data):
     return counts
 
 def count_occurences(data):
-    return dict(collections.Counter(x for sublist in data for x in sublist))
+    # return dict(collections.Counter(x for sublist in data for x in sublist)) # płaska lista
+    occurences = []
+    for column in zip(*data): # zip transposes rows to columns
+        occurences.append(dict(collections.Counter(item for item in column)))
+    return occurences
 
 def get_probabilities(decision_keys, data):
     decision_occurences = {key:count_occurences(data)[key] for key in decision_keys }
@@ -33,12 +37,22 @@ def get_info(decision_keys, data):
 
 
 
-
+# zip(*data) # transpose rows to columns
 
 x = read_file(FILE)
 print(x)
-print(count_class(x))
+# print(count_class(x))
 print(count_occurences(x))
-print(get_probabilities(["down","up"],x))
-print(get_entropy(get_probabilities(["down","up"],x)))
-get_info(["down","up"],x)
+# print(get_probabilities(["down","up"],x))
+# print(get_entropy(get_probabilities(["down","up"],x)))
+# b = list(zip(*x))
+# print(b)
+#
+# f =[]
+# for column in b:
+#     f.append(dict(collections.Counter(x for x in column) ))
+#
+# print(f)
+
+# get_info(["down","up"],x)
+
