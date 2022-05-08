@@ -23,12 +23,19 @@ def count_occurences(data):
         occurences.append(dict(collections.Counter(item for item in column)))
     return occurences
 
-def get_probabilities(decision_keys, data):
-    decision_occurences = {key:count_occurences(data)[key] for key in decision_keys }
-    return [val/len(data) for val in decision_occurences.values()]
+def get_probabilities(data):
+    probabilities = []
+    for column in data:
+        total = sum(column.values())
+        probabilities.append([attribute/total for attribute in list(column.values())])
+    return probabilities
+
+
+def count_entropy(decision_probabilities):
+    return -(sum([p * log2(p) for p in decision_probabilities if p != 0]))
 
 def get_entropy(probabilities):
-    return -(sum([p * log2(p) for p in probabilities if p !=0]))
+    return count_entropy(probabilities[-1])
 
 def get_info(decision_keys, data):
     attributes_occurences = count_occurences(data)
@@ -36,23 +43,20 @@ def get_info(decision_keys, data):
         attributes_occurences.pop(key, None)
 
 
-
-# zip(*data) # transpose rows to columns
-
 x = read_file(FILE)
+clss = count_class(x)
+occ= count_occurences(x)
+prop = get_probabilities(count_occurences(x))
+entr = get_entropy(prop)
+
 print(x)
-# print(count_class(x))
-print(count_occurences(x))
-# print(get_probabilities(["down","up"],x))
-# print(get_entropy(get_probabilities(["down","up"],x)))
-# b = list(zip(*x))
-# print(b)
-#
-# f =[]
-# for column in b:
-#     f.append(dict(collections.Counter(x for x in column) ))
-#
-# print(f)
+print(clss)
+print(occ)
+print(prop)
+print(entr)
+
+
+
 
 # get_info(["down","up"],x)
 
