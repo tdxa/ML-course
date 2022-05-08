@@ -35,12 +35,22 @@ def count_entropy(decision_probabilities):
     return -(sum([p * log2(p) for p in decision_probabilities if p != 0]))
 
 def get_entropy(probabilities):
+    """
+    Wyliczanie entropii dla klasy decyzyjnej na podstawie prawdopodbieństw
+    """
     return count_entropy(probabilities[-1])
 
-def get_info(decision_keys, data):
-    attributes_occurences = count_occurences(data)
-    for key in decision_keys:
-        attributes_occurences.pop(key, None)
+def get_info(attribute_class, data):
+    """
+    Wyliczanie funkcji informacji dla podanej klasy atrybutu warunkowego
+    """
+    occurences = count_occurences(data)
+    info = 0
+    for attribute in occurences[attribute_class].keys():
+        subset = [row for row in x if row[attribute_class] == attribute]
+        subset_probabilities = get_probabilities(count_occurences(subset))
+        info += (len(subset) / len(x) * get_entropy(subset_probabilities))
+    return info
 
 
 x = read_file(FILE)
@@ -48,15 +58,15 @@ clss = count_class(x)
 occ= count_occurences(x)
 prop = get_probabilities(count_occurences(x))
 entr = get_entropy(prop)
+info = [get_info(index, x) for index in range(len(clss)-1)]
 
+print("*************************")
 print(x)
+print(list(zip(*x)))
 print(clss)
 print(occ)
 print(prop)
 print(entr)
-
-
-
-
-# get_info(["down","up"],x)
+print(info)
+print()
 
