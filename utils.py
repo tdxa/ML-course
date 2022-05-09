@@ -102,9 +102,9 @@ def build_tree(data, prev=-1, margin='\t\t'):
 
     if max_gain_ratio > 0:  # warunek stopu
         if prev != -1:
-            print(f'{margin}{list(occurences[prev].keys())[0]} --> ATTRIBUTE: {best_attribute + 1}')
+            print(f'{margin}\033[94m\033[1m{list(occurences[prev].keys())[0]} --> ATTRIBUTE: {best_attribute + 1}\x1b[0m')
         else:
-            print(f'ATTRIBUTE: {best_attribute + 1}')
+            print(f'\x1b[0;30;44m\033[1mATTRIBUTE: {best_attribute + 1}\x1b[0m')
 
         prev = best_attribute
         margin += '\t'
@@ -113,7 +113,7 @@ def build_tree(data, prev=-1, margin='\t\t'):
         for x in new:
             build_tree(x, prev, margin)
     else:
-        print(f'{margin}{list(occurences[prev].keys())[0]} --> DECISION: {list(occurences[len(data[0]) - 1].keys())[0]}')
+        print(f'{margin}{list(occurences[prev].keys())[0]} --> DECISION: \033[3m{list(occurences[len(data[0]) - 1].keys())[0]}\x1b[0m')
 
 
 x = read_file(FILE)
