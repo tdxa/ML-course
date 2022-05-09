@@ -108,7 +108,6 @@ def build_tree(data, prev=-1, margin="\t\t", color=1):
 
     max_gain_ratio = max(gain_ratio)
     best_attribute = get_best_attribute(gain_ratio)
-    print(data)
 
     if max_gain_ratio > 0:  # warunek stopu
         if prev != -1:
