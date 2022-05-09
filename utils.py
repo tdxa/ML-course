@@ -8,7 +8,6 @@ def read_file(path:str, delimiter=","):
         return [row for row in csv.reader(file, delimiter=delimiter)]
 
 def count_class(data):
-    # return len(list(collections.Counter(x for sublist in data for x in sublist).keys()))
     size = len(data[0])
     counts = []
     for i in range(size):
@@ -17,7 +16,6 @@ def count_class(data):
     return counts
 
 def count_occurences(data):
-    # return dict(collections.Counter(x for sublist in data for x in sublist)) # płaska lista
     occurences = []
     for column in zip(*data): # zip transposes rows to columns
         occurences.append(dict(collections.Counter(item for item in column)))
