@@ -2,7 +2,7 @@ import collections
 from math import log2
 from typing import List, Dict
 
-from utils import Formatting
+from utils import Formatting, print_decision, print_attribute_value
 
 
 def count_class(data: List[List[str]]) -> List[int]:
@@ -112,7 +112,8 @@ def build_tree(data, prev=-1, margin="\t\t", color=1):
     if max_gain_ratio > 0:  # warunek stopu
         if prev != -1:
             print(
-                f"{margin}{Formatting.BOLD + Formatting.UNDERSCORE}\33[3{color}m{list(occurrences[prev].keys())[0]} --> ATTRIBUTE: {best_attribute + 1}{Formatting.END} "
+                f"{margin}{Formatting.BOLD + Formatting.UNDERSCORE}\33[3{color}m"
+                f"{print_attribute_value(occurrences, prev)} --> ATTRIBUTE: {best_attribute + 1}{Formatting.END} "
             )
         else:
             print(
@@ -131,5 +132,6 @@ def build_tree(data, prev=-1, margin="\t\t", color=1):
             build_tree(subset, prev, margin, color)
     else:
         print(
-            f"{margin}\33[3{color}m{list(occurrences[prev].keys())[0]} --> DECISION: {Formatting.ITALIC}{list(occurrences[len(data[0]) - 1].keys())[0]}{Formatting.END}"
+            f"{margin}\33[3{color}m{print_attribute_value(occurrences, prev)} --> DECISION: {Formatting.ITALIC}"
+            f"{print_decision(occurrences,data)}{Formatting.END}"
         )
